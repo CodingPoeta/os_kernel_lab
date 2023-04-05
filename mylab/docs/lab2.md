@@ -1,4 +1,7 @@
-# ChangeLog
+# Lab 2
+
+## ChangeLog
+
 相对与实验一，实验二主要增加和修改的文件如上表所示。主要改动如下：
 
 - boot/bootasm.S：增加了对计算机系统中物理内存布局的探测功能；
@@ -10,8 +13,8 @@
 - libs/atomic.h：定义了对一个变量进行读写的原子操作，确保相关操作不被中断打断。（可不用细看）
 - tools/kernel.ld：ld形成执行文件的地址所用到的链接脚本。修改了ucore的起始入口和代码段的起始地址。相关细节可参看附录C。
 
+## Linux 内存管理
 
-# Linux 内存管理
-## 物理内存布局探测
-https://zhuanlan.zhihu.com/p/435020338
+### 物理内存布局探测
 
+ref: [深入理解Linux内存管理（一）物理内存布局探测](https://zhuanlan.zhihu.com/p/435020338)
