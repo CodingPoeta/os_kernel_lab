@@ -59,6 +59,10 @@ CFLAGS	+= $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 &
 endif
 
 GDB		:= $(GCCPREFIX)gdb
+
+CC		:= $(GCCPREFIX)gcc
+CFLAGS	:= -fno-builtin -fno-PIC -Wall -ggdb -m32 -gstabs -nostdinc $(DEFS)
+CFLAGS	+= $(shell $(CC) -fno-stack-protector -E -x c /dev/null >/dev/null 2>&1 && echo -fno-stack-protector)
 CTYPE	:= c S
 
 LD      := $(GCCPREFIX)ld
@@ -77,9 +81,6 @@ SED		:= sed
 SH		:= sh
 TR		:= tr
 TOUCH	:= touch -c
-
-TAR		:= tar
-ZIP		:= gzip
 
 OBJDIR	:= obj
 BINDIR	:= bin
@@ -329,9 +330,9 @@ touch:
 print-%:
 	@echo $($(shell echo $(patsubst print-%,%,$@) | $(TR) [a-z] [A-Z]))
 
-.PHONY: clean dist-clean handin packall tags
+.PHONY: clean dist-clean handin packall
 clean:
-	$(V)$(RM) $(GRADE_GDB_IN) $(GRADE_QEMU_OUT) cscope* tags
+	$(V)$(RM) $(GRADE_GDB_IN) $(GRADE_QEMU_OUT)
 	-$(RM) -r $(OBJDIR) $(BINDIR)
 
 dist-clean: clean
@@ -343,10 +344,3 @@ handin: packall
 packall: clean
 	@$(RM) -f $(HANDIN)
 	@tar -czf $(HANDIN) `find . -type f -o -type d | grep -v '^\.*$$' | grep -vF '$(HANDIN)'`
-
-tags:
-	@echo TAGS ALL
-	$(V)rm -f cscope.files cscope.in.out cscope.out cscope.po.out tags
-	$(V)find . -type f -name "*.[chS]" >cscope.files
-	$(V)cscope -bq 
-	$(V)ctags -L cscope.files
